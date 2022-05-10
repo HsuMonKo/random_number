@@ -46,6 +46,6 @@ jobs:
         with:
           username: "SuMonKo"
           icon_emoji: ":robot_face:"
-          text:  "Name: Su Mon Ko \nMatriculation: A0249496J \nEmail: <outlook.com|E0941689@U.NUS.EDU> \nRepo: <https://github.com/smonko-SA54/random_number.git|git://github.com/smonko-SA54/random_number.git>\nImage name: smk123/randnumimg:${{github.ref_name}}\nImage url: <https://hub.docker.com/repository/docker/smk123/randnumimgt|https://hub.docker.com/repository/docker/smk123/randnumimg>"
+          text:  "Name: Su Mon Ko \nMatriculation: A0249496J \nEmail: <outlook.com|E0941689@U.NUS.EDU> \nRepo: <https://github.com/smonko-SA54/random_number.git|git://github.com/smonko-SA54/random_number.git>\nImage name: smk123/randnumimg:${{github.ref_name}}\nImage url: <https://hub.docker.com/repository/docker/smk123/randnumimg|https://hub.docker.com/repository/docker/smk123/randnumimg>"
 
           webhook_url: ${{ secrets.SLACK_WEBHOOK }}
