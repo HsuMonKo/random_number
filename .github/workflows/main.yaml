@@ -39,21 +39,3 @@ jobs:
           context: .
           push: true
           tags: smk123/randnumimg:v1.0
-
-
-
-      # -
-
-      #   name: Post message on slack
-
-      #   uses: bluenovaio/action-slack@main
-
-      #   with:
-
-      #     username: "SuMonKo"
-
-      #     icon_emoji: ":robot_face:"
-
-      #     text:  "Name: Su Mon Ko \nMatriculation: A0249496J \nEmail: <outlook.com|E0941689@U.NUS.EDU> \nRepo: <https://github.com/NYANHTET7/randnum.git|git://github.com/NYANHTET7/randnum.git>\nImage name: nyan345/randnumimg:${{github.ref_name}}\nImage url: <https://hub.docker.com/repository/docker/nyan345/randnumimgt|https://hub.docker.com/repository/docker/nyan345/randnumimg>"
-
-      #     webhook_url: ${{ secrets.SLACK_WEBHOOK }}
