@@ -2,28 +2,40 @@ name: randnum workflow
 on:
   release:
     types: [published]
+  
 jobs:
   push_to_docker:
     runs-on: ubuntu-latest
     steps:
+
+      # https://github.com/marketplace/actions/checkout
+      # This action checks-out repository under $GITHUB_WORKSPACE, so that workflow can access it.
       - name: Checkout
         uses: actions/checkout@v3
         with:
           ref: ${{ github.ref_name }}
+
+      # https://github.com/marketplace/actions/docker-login
+      # To login to docker account 
       - name: Login to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: print tag name
         run: echo ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
+
+      # https://github.com/marketplace/actions/build-and-push-docker-images
+      # Build and push with image tag as <account name>/<image name>:<tag> format.
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          # tags: sumonko/randum_number:1.0
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/randum_number:${{ github.ref_name }}
+
+      # https://github.com/marketplace/actions/slack-send
+      # To post message on slack channel
       - name: Send custom JSON data to Slack
         id: Slack
         uses: slackapi/slack-github-action@v1.18.0
