@@ -1,51 +1,48 @@
-name: ci
-
+name: randnum workflow
 on:
   release:
     types: [published]
-    tag:
-    - v1.*
-
-     
-
 jobs:
-  docker:
+  push_to_docker:
     runs-on: ubuntu-latest
     steps:
-
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      -
-        name: Login to DockerHub
-        uses: docker/login-action@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      -
-        name: Build and push
-        uses: docker/build-push-action@v3
+      - name: Print Repo
+        run: echo ${{ github.repository }}
+      - name: downcase REPO
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+      - name: Build and push
+        uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: smk123/randnumimg:v1.0
-          
-      -
-        name: Post message on slack
-        uses: bluenovaio/action-slack@main
+          tags: ${{ github.repository }}:${{ github.ref_name }}
+      - name: Send custom JSON data to Slack
+        id: Slack
+        uses: slackapi/slack-github-action@v1.18.0
         with:
-          username: "SuMonKo"
-          icon_emoji: ":robot_face:"
-          text:  "Name: Su Mon Ko \nMatriculation: A0249496J \nEmail: <outlook.com|E0941689@U.NUS.EDU> \nRepo: <https://github.com/smonko-SA54/random_number.git|git://github.com/smonko-SA54/random_number.git>\nImage name: smk123/randnumimg:${{github.ref_name}}\nImage url: <https://hub.docker.com/repository/docker/smk123/randnumimg|https://hub.docker.com/repository/docker/smk123/randnumimg>"
-
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          # For posting a rich message using Block Kit
+          payload: |
+            {
+              "text": "SA54 Submission",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Name: ${{ secrets.USER_NAME }}\nMatriculation Number: ${{ secrets.MAT_NUMBER }}\nEmail: ${{ secrets.EMAIL }}\nRepository: ${{ github.repositoryUrl }}\nImage Name: ${{ github.repository }}:${{ github.ref_name }}\nImage URL: ${{ secrets.IMAGE_URL }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
