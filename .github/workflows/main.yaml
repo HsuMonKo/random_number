@@ -21,6 +21,7 @@ jobs:
           context: .
           push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
+          registry: docker.io
       - name: Send custom JSON data to Slack
         id: Slack
         uses: slackapi/slack-github-action@v1.18.0
