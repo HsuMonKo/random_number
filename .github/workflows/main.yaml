@@ -18,11 +18,11 @@ jobs:
       - name: Logout of Docker
         run: docker logout
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
+          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
       - name: Send custom JSON data to Slack
         id: Slack
         uses: slackapi/slack-github-action@v1.18.0
