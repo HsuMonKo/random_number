@@ -15,12 +15,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: print tag name
+        run: echo ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{github.event.release.name}}
+          # tags: sumonko/randum_number:1.0
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
       - name: Send custom JSON data to Slack
         id: Slack
         uses: slackapi/slack-github-action@v1.18.0
