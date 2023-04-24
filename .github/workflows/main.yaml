@@ -20,7 +20,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
+          tags: docker.io/sumonko/randum_number:0.1
+          # tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
           registry: docker.io
       - name: Send custom JSON data to Slack
         id: Slack
