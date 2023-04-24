@@ -20,9 +20,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: docker.io/sumonko/randum_number:1.0
+          tags: sumonko/randum_number:1.0
           # tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref_name }}
-          registry: docker.io
       - name: Send custom JSON data to Slack
         id: Slack
         uses: slackapi/slack-github-action@v1.18.0
@@ -36,7 +35,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "Name: ${{ secrets.USER_NAME }}\nMatriculation Number: ${{ secrets.MAT_NUMBER }}\nEmail: ${{ secrets.EMAIL }}\nRepository: ${{ github.repositoryUrl }}\nImage Name: ${{ github.repository }}:${{ github.ref_name }}\nImage URL: ${{ secrets.IMAGE_URL }}"
+                    "text": "Name: ${{ secrets.USER_NAME }}\nMatriculation: ${{ secrets.MAT_NUMBER }}\nEmail: ${{ secrets.EMAIL }}\nRepo: ${{ github.repositoryUrl }}\nImage name: ${{ github.repository }}:${{ github.ref_name }}\nImage url: ${{ secrets.IMAGE_URL }}"
                   }
                 }
               ]
